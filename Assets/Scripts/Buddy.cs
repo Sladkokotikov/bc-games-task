@@ -1,18 +1,21 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace DrawAndRun
 {
     public class Buddy : MonoBehaviour
     {
         private BuddyBox _box;
-        [SerializeField] private GameObject explosion;
+        /*[SerializeField] private GameObject explosion;
         [SerializeField] private GameObject gemExplosion;
-        [SerializeField] private GameObject fireworks;
-        private void OnCollisionEnter(Collision other)
+        [SerializeField] private GameObject fireworks;*/
+        [SerializeField] private float drownDuration = 1;
+        [SerializeField] private float drownY = -5;
+
+        /*private void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.CompareTag("obstacle"))
             {
-                
                 Instantiate(explosion, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 _box.CountDeath();
@@ -28,24 +31,20 @@ namespace DrawAndRun
 
             if (other.gameObject.CompareTag("gem"))
             {
-                Instantiate(gemExplosion, transform.position, Quaternion.identity);
+                //Instantiate(gemExplosion, transform.position, Quaternion.identity);
                 _box.CollectGem();
                 Destroy(other.gameObject);
-                
             }
-            
-            if (other.gameObject.CompareTag("Finish"))
-            {
-                //Instantiate(fireworks, transform.position, Quaternion.identity);
-                _box.Win();
-                return;
-            }
-
-
         }
+
         public void Init(BuddyBox buddyBox)
         {
             _box = buddyBox;
+        }*/
+
+        public void Drown()
+        {
+            transform.DOLocalMoveY(drownY, drownDuration).Play();
         }
     }
 }

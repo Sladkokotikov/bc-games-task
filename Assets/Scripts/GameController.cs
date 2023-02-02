@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using Dreamteck.Splines;
 using TMPro;
 using UnityEngine;
@@ -8,36 +11,46 @@ namespace DrawAndRun
 {
     public class GameController : MonoBehaviour
     {
-        [SerializeField] private SplineFollower cam, buddyBox;
+        [SerializeField] private SplineFollower camSplineFollower, buddyBoxSplineFollower;
         [SerializeField] private LineDrawer drawer;
         [SerializeField] private GameObject drawLabel;
-        [SerializeField] private GameObject restart;
-        [SerializeField] private GameObject next;
-        [SerializeField] private TMP_Text gemCounter;
+        [SerializeField] private GameObject restartButton;
+        [SerializeField] private GameObject nextButton;
+        [SerializeField] private TMP_Text gemCounterText;
         [SerializeField] private TMP_Text levelLabel;
         [SerializeField] private List<LevelInfo> levels;
-        [SerializeField] private BuddyBox box;
+        [SerializeField] private BuddyBox buddyBox;
 
         private static int _levelIndex;
         private static int _gemCount;
 
+        private float _endPercent;
+
         private void Start()
         {
-            gemCounter.text = $"{_gemCount}";
+            gemCounterText.text = $"{_gemCount}";
             drawer.OnEndDraw += Play;
             levelLabel.text = $"Level {_levelIndex + 1}";
             InitLevel(levels[_levelIndex]);
-            
         }
 
         private void InitLevel(LevelInfo level)
         {
-            box.Init(level.startBuddyCount);
+            buddyBox.Init(level.startBuddyCount);
             
-            cam.spline = level.computer;
-            buddyBox.spline = level.computer;
-            
-            GetComponent<LevelInitializer>().InitializeLevel(level);
+            camSplineFollower.spline = level.computer;
+            buddyBoxSplineFollower.spline = level.computer;
+
+            var initializer = GetComponent<LevelInitializer>();
+            initializer.InitializeLevel(level);
+            _endPercent = initializer.EndPercent;
+        }
+
+        private float _followSpeed;
+
+        private float FollowSpeed
+        {
+            set => camSplineFollower.followSpeed = buddyBoxSplineFollower.followSpeed = value;
         }
 
         private void Play(List<Vector2> _, Vector2 __)
@@ -45,29 +58,23 @@ namespace DrawAndRun
             drawer.OnEndDraw -= Play;
             drawer = null;
             print("Play!");
-            cam.followSpeed = 5;
-            buddyBox.followSpeed = 5;
+            FollowSpeed = 5;
             drawLabel.SetActive(false);
-            restart.SetActive(false);
-            next.SetActive(false);
+            restartButton.SetActive(false);
+            nextButton.SetActive(false);
+
+            StartCoroutine(Delay(() => camSplineFollower.result.percent > _endPercent, Win));
         }
 
         public void Lose()
         {
-            cam.enabled = false;
-            buddyBox.enabled = false;
-            restart.SetActive(true);
-        }
-        
-        public void Win()
-        {
-            cam.enabled = false;
-            buddyBox.enabled = false;
-            next.SetActive(true);
+            FollowSpeed = 0;
+            restartButton.SetActive(true);
         }
 
         public void RestartGame()
         {
+            DOTween.KillAll();
             SceneManager.LoadScene(0);
         }
 
@@ -81,7 +88,27 @@ namespace DrawAndRun
         public void CollectGem()
         {
             _gemCount++;
-            gemCounter.text = $"{_gemCount}";
+            gemCounterText.text = $"{_gemCount}";
+            
+        }
+
+        private void Win()
+        {
+            FollowSpeed = 0;
+            buddyBox.Win();
+            nextButton.SetActive(true);
+        }
+
+        private static IEnumerator Delay(Func<bool> pred, Action action)
+        {
+            yield return new WaitUntil(pred);
+            action();
+        }
+
+
+        public void LoseBuddy()
+        {
+            buddyBox.LoseBuddy();
         }
     }
 }

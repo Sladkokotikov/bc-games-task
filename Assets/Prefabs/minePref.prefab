@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5678367348902260166}
   - component: {fileID: 7577704728405874956}
   - component: {fileID: 669881159200852234}
+  - component: {fileID: 5873931843538479019}
   m_Layer: 0
   m_Name: minePref
   m_TagString: obstacle
@@ -59,8 +60,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7805965318761107941, guid: 35156b88b82761c44b595d97f9e56d5e, type: 3}
-  - {fileID: -2767088379011398760, guid: 35156b88b82761c44b595d97f9e56d5e, type: 3}
+  - {fileID: 2100000, guid: edebbfd7f23fd6a4cb9116e7f00f693c, type: 2}
+  - {fileID: 2100000, guid: 6e623aa9207cfd44587fae15ebf3e32f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,3 +95,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.0033229492, z: 0.02}
   m_Center: {x: 0, y: 0.0016614739, z: 0}
+--- !u!114 &5873931843538479019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226271384779733209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f54f061f7aeb4fceb85488a9a2085c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

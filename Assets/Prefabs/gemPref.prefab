@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1158733744876627769}
   - component: {fileID: -100120433907548411}
   - component: {fileID: 983486111542980743}
+  - component: {fileID: 2772235848885380045}
   m_Layer: 0
   m_Name: gemPref
   m_TagString: gem
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 798362280211154668}
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_LocalScale: {x: 70, y: 70, z: 70}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,8 +61,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb7023175d89b04479781b889913e32a, type: 2}
-  - {fileID: 2100000, guid: cb7023175d89b04479781b889913e32a, type: 2}
+  - {fileID: 2100000, guid: e0b7583789cb94c41b70fe422697849b, type: 2}
+  - {fileID: 2100000, guid: e0b7583789cb94c41b70fe422697849b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,3 +115,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2772235848885380045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798362280211154668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f71434ae3c4c14b401b76d53abdd29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

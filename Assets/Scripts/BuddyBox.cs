@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
+using DG.Tweening;
+using Dreamteck.Splines;
 using UnityEngine;
 
 namespace DrawAndRun
@@ -11,9 +13,16 @@ namespace DrawAndRun
         [SerializeField] private int buddyCount;
         [SerializeField] private Transform buddyBox;
         [SerializeField] private float spawnRangeWidth;
-        [SerializeField] private float buddyRandomOfset;
+        [SerializeField] private float buddyRandomOffset;
         [SerializeField] private Vector3 buddyOffset;
         [SerializeField] private GameController controller;
+
+        [SerializeField] private int rowBuddiesCount = 5;
+        [SerializeField] private float winScale = 1;
+        [SerializeField] private float moveToDanceDuration = 1;
+
+        private bool _won;
+
         private static readonly int Hip = Animator.StringToHash("hip");
 
         private void OnEnable()
@@ -28,13 +37,11 @@ namespace DrawAndRun
 
         private void EndDragHandler(List<Vector2> positions, Vector2 sizeDelta)
         {
-            buddyBox.Clear();
-
-            if (buddyCount == 0)
+            if (_won || buddyCount == 0)
                 return;
-            print(positions.Count);
+            buddyBox.Clear();
             while (positions.Count < buddyCount)
-                positions.Add(Random.insideUnitCircle * buddyRandomOfset);
+                positions.Add(Random.insideUnitCircle * buddyRandomOffset);
             var step = positions.Count / buddyCount;
             for (var i = 0; i < buddyCount; i++)
             {
@@ -49,19 +56,6 @@ namespace DrawAndRun
         {
             var buddy = Instantiate(buddyPrefab, buddyBox);
             buddy.transform.localPosition = pos;
-            buddy.Init(this);
-        }
-
-        public void CountDeath()
-        {
-            buddyCount--;
-            if (buddyCount == 0)
-                Die();
-        }
-
-        private void Die()
-        {
-            controller.Lose();
         }
 
         public void AddClone(Vector3 pos)
@@ -82,12 +76,31 @@ namespace DrawAndRun
 
         public void Win()
         {
-            foreach (Transform child in transform)
+            AlignBuddiesToWin();
+            _won = true;
+            GetComponent<SplineFollower>().enabled = false;
+           transform.localEulerAngles = 180 * Vector3.up;
+        }
+
+        public void AlignBuddiesToWin()
+        {
+            var dx = (1 - rowBuddiesCount % 2) * 0.5f - rowBuddiesCount / 2;
+            for (var i = 0; i < transform.childCount; i++)
             {
-                child.localScale *= Random.Range(5f, 9f);
+                var child = transform.GetChild(i);
                 child.GetComponent<Animator>().SetTrigger(Hip);
+                child
+                    .DOLocalMove(winScale * new Vector3(i % rowBuddiesCount + dx, 0, -i / rowBuddiesCount),
+                        moveToDanceDuration)
+                    .Play();
             }
-            controller.Win();
+        }
+
+        public void LoseBuddy()
+        {
+            buddyCount--;
+            if (buddyCount == 0)
+                controller.Lose();
         }
     }
 }

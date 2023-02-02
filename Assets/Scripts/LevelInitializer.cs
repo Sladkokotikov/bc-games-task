@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dreamteck.Splines;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DrawAndRun
 {
@@ -15,6 +17,7 @@ namespace DrawAndRun
         private Dictionary<Color, GameObject> _resources;
 
         private int _levelWidth, _levelHeight;
+        public float EndPercent => 1 - Single.Epsilon;
 
         private void Awake()
         {
@@ -59,11 +62,14 @@ namespace DrawAndRun
             {
                 foreach (var pos in colors[k])
                 {
-                    var percent = (float) pos.y / _levelHeight;
+                    var percent = (float) (pos.y + 1) / _levelHeight;
                     var sample = _computer.Evaluate(_computer.Travel(0, length * percent));
                     var x = (_levelWidth % 2 == 0 ? -0.5f : 0) - _levelWidth / 2 + pos.x;
                     var obj = Instantiate(_resources[k],
                         sample.position + childRange * x * sample.right, sample.rotation);
+                    var spawnable = obj.GetComponent<Spawnable>();
+                    print(spawnable);
+                    spawnable.Init(GetComponent<GameController>());
                     obj.transform.localScale *= childScale;
                 }
             }
