@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5678367348902260166}
   - component: {fileID: 7577704728405874956}
   - component: {fileID: 669881159200852234}
-  - component: {fileID: 5873931843538479019}
+  - component: {fileID: 4665348453072299794}
   m_Layer: 0
   m_Name: minePref
   m_TagString: obstacle
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8226271384779733209}
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: -0.000000007450581, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -95,7 +95,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.0033229492, z: 0.02}
   m_Center: {x: 0, y: 0.0016614739, z: 0}
---- !u!114 &5873931843538479019
+--- !u!114 &4665348453072299794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,3 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f54f061f7aeb4fceb85488a9a2085c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosion: {fileID: 5761944552811573939, guid: ec195ddcbc5f4f2489bb2ec345f99d88,
+    type: 3}
+  autoExplosion: {fileID: 5761944552811573939, guid: b115c353cd6420744995215cb0d8f894,
+    type: 3}
+  autoDestroy: 1

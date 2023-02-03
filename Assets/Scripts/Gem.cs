@@ -8,8 +8,9 @@ namespace DrawAndRun
         {
             if (!other.gameObject.CompareTag("buddy"))
                 return;
-            Controller.CollectGem();
-            Destroy(gameObject);
+            Controller.CollectGem(this);
+            Destroy(GetComponent<Collider>());
+            
         }
     }
 }

@@ -13,6 +13,7 @@ namespace DrawAndRun
     {
         [SerializeField] private SplineFollower camSplineFollower, buddyBoxSplineFollower;
         [SerializeField] private LineDrawer drawer;
+
         [SerializeField] private GameObject drawLabel;
         [SerializeField] private GameObject restartButton;
         [SerializeField] private GameObject nextButton;
@@ -20,6 +21,8 @@ namespace DrawAndRun
         [SerializeField] private TMP_Text levelLabel;
         [SerializeField] private List<LevelInfo> levels;
         [SerializeField] private BuddyBox buddyBox;
+
+        [SerializeField] private GameObject confetti;
 
         private static int _levelIndex;
         private static int _gemCount;
@@ -37,7 +40,7 @@ namespace DrawAndRun
         private void InitLevel(LevelInfo level)
         {
             buddyBox.Init(level.startBuddyCount);
-            
+
             camSplineFollower.spline = level.computer;
             buddyBoxSplineFollower.spline = level.computer;
 
@@ -63,7 +66,7 @@ namespace DrawAndRun
             restartButton.SetActive(false);
             nextButton.SetActive(false);
 
-            StartCoroutine(Delay(() => camSplineFollower.result.percent > _endPercent, Win));
+            StartCoroutine(Extensions.Delay(() => camSplineFollower.result.percent > _endPercent, Win));
         }
 
         public void Lose()
@@ -85,11 +88,14 @@ namespace DrawAndRun
             RestartGame();
         }
 
-        public void CollectGem()
+        public void CollectGem(Gem gem)
         {
             _gemCount++;
             gemCounterText.text = $"{_gemCount}";
-            
+            DOTween.Sequence()
+                .Append(gem.transform.DOLocalMoveY(gem.transform.localPosition.y + 2, 1))
+                .Append(gem.transform.DOLocalMove(gem.transform.localPosition + new Vector3(-5, 10, 0), 3))
+                .Play();
         }
 
         private void Win()
@@ -97,18 +103,18 @@ namespace DrawAndRun
             FollowSpeed = 0;
             buddyBox.Win();
             nextButton.SetActive(true);
-        }
-
-        private static IEnumerator Delay(Func<bool> pred, Action action)
-        {
-            yield return new WaitUntil(pred);
-            action();
+            Instantiate(confetti, new Vector3(0, 0, 100), Quaternion.Euler(90, 0, 0));
         }
 
 
         public void LoseBuddy()
         {
             buddyBox.LoseBuddy();
+        }
+
+        public void AddBuddy(Vector3 transformPosition)
+        {
+            buddyBox.AddClone(transformPosition);
         }
     }
 }

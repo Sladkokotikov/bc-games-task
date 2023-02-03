@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DrawAndRun
 {
@@ -12,5 +15,17 @@ namespace DrawAndRun
 
         public static void Clear(this GameObject target)
             => target.transform.Clear();
+
+        public static IEnumerator Delay(float duration, Action action)
+        {
+            yield return new WaitForSeconds(duration);
+            action();
+        }
+        
+        public static IEnumerator Delay(Func<bool> pred, Action action)
+        {
+            yield return new WaitUntil(pred);
+            action();
+        }
     }
 }

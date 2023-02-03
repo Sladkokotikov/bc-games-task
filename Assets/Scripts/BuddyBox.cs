@@ -61,12 +61,7 @@ namespace DrawAndRun
         public void AddClone(Vector3 pos)
         {
             buddyCount++;
-            SpawnBuddy(pos + new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f)));
-        }
-
-        public void CollectGem()
-        {
-            controller.CollectGem();
+            SpawnBuddy(pos - transform.position);
         }
 
         public void Init(int startBuddyCount)

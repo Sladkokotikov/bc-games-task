@@ -17,7 +17,7 @@ namespace DrawAndRun
         private Dictionary<Color, GameObject> _resources;
 
         private int _levelWidth, _levelHeight;
-        public float EndPercent => 1 - Single.Epsilon;
+        public float EndPercent => 0.98f;
 
         private void Awake()
         {

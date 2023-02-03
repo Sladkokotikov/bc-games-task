@@ -85,8 +85,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_1A5D7CE3: {r: 1, g: 1, b: 1, a: 1}
-    - Color_F736FCDA: {r: 1, g: 0.53792727, b: 0, a: 1}
+    - Color_F736FCDA: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
